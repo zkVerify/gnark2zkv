@@ -1,0 +1,18 @@
+{
+  "name": "gnark2zkv",
+  "version": "0.1.0",
+  "description": "Utility for converting Groth16 artifacts from gnark format to zkVerify format",
+  "main": "gnark2zkv.js",
+  "scripts": {
+    "test": "mocha --exit"
+  },
+  "author": "ZeroBase and Horizen Labs <admin@horizenlabs.io>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "ffjavascript": "^0.3.0"
+  },
+  "devDependencies": {
+    "mocha": "^10.4.0"
+  }
+}
