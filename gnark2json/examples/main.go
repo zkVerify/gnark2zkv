@@ -28,7 +28,7 @@ func main() {
 	var circuit Circuit
 
 	// 1. Circuit definition
-	_r1cs, err := frontend.Compile(ecc.BN254.ScalarField(), r1cs.NewBuilder, &circuit)
+	_r1cs, err := frontend.Compile(ecc.BLS12_381.ScalarField(), r1cs.NewBuilder, &circuit)
 	if err != nil {
 		panic(err)
 	}
@@ -45,7 +45,7 @@ func main() {
 		B: "10",
 		C: "1",
 	}
-	witness, _ := frontend.NewWitness(&assignment, ecc.BN254.ScalarField())
+	witness, _ := frontend.NewWitness(&assignment, ecc.BLS12_381.ScalarField())
 	publicWitness, _ := witness.Public()
 
 	// 4. Proof creation
@@ -62,7 +62,7 @@ func main() {
 	}
 
 	// ******************* Save publicWitness as JSON file **********************
-	err = gnark2zkv.SaveToJSON("WitnessPublic.json", publicWitness)
+	err = gnark2zkv.SaveToJSON("public.json", publicWitness)
 	if err != nil {
 		fmt.Printf("Error converting public witness to JSON: %v\n", err)
 		return
