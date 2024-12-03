@@ -30,10 +30,15 @@ program
   .command("convert-proof")
   .description("convert a Groth16 proof")
   .argument("<proof>", "JSON file containing the proof in gnark format")
+  .addOption(
+    new Option("-c, --curve <curve>", "curve of the SNARK")
+      .makeOptionMandatory()
+      .choices(["bn128", "bls12381"])
+  )
   .option("-o, --out <file>", "output file (print to stdout if not specified")
   .action(async (filename, options) => {
     const proofIn = JSON.parse(fs.readFileSync(filename, "utf8"));
-    const proofOut = await convertProof(proofIn);
+    const proofOut = await convertProof(proofIn, options.curve); 
     const proofOutJSON = JSON.stringify(proofOut, null, 2);
     if (options.out) {
       fs.writeFileSync(options.out, proofOutJSON);
@@ -49,10 +54,15 @@ program
     "<vk>",
     "JSON file containing the verification key in gnark format"
   )
+  .addOption(
+    new Option("-c, --curve <curve>", "curve of the SNARK")
+      .makeOptionMandatory()
+      .choices(["bn128", "bls12381"])
+  )
   .option("-o, --out <file>", "output file (print to stdout if not specified")
   .action(async (filename, options) => {
     const vkIn = JSON.parse(fs.readFileSync(filename, "utf8"));
-    const vkOut = await convertVk(vkIn);
+    const vkOut = await convertVk(vkIn, options.curve); 
     const vkOutJSON = JSON.stringify(vkOut, null, 2);
     if (options.out) {
       fs.writeFileSync(options.out, vkOutJSON);

@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/consensys/gnark-crypto/ecc"
+	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 	"github.com/consensys/gnark/backend/groth16"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/frontend/cs/r1cs"
@@ -62,13 +63,20 @@ func main() {
 	}
 
 	// ******************* Save publicWitness as JSON file **********************
-	witnessPublic, err := gnark2zkv.ConvertPublicWitnessToJSON(publicWitness, "WitnessPublic.json")
+	rawVector, ok := publicWitness.Vector().(fr.Vector)
+	if !ok {
+		panic("Failed to assert type of publicWitness.Vector() to fr.Vector")
+	}
+	witnessPublicStrings := make([]string, len(rawVector))
+	for i, val := range rawVector {
+		witnessPublicStrings[i] = val.String()
+	}
+	err = gnark2zkv.SaveToJSON("WitnessPublic.json", witnessPublicStrings)
 	if err != nil {
 		fmt.Printf("Error converting public witness to JSON: %v\n", err)
 		return
 	}
 
-	fmt.Println("Generated Witness Public:", witnessPublic)
 	fmt.Println("Witness JSON saved to WitnessPublic.json")
 	// ******************* Save Proof as JSON file ******************************
 	err = gnark2zkv.SaveToJSON("proof.json", proof)
@@ -76,6 +84,7 @@ func main() {
 		fmt.Println("Error saving proof to JSON:", err)
 		return
 	}
+
 	fmt.Println("Proof saved to proof.json")
 	// ******************* Save VK as JSON file *********************************
 	err = gnark2zkv.SaveToJSON("vk.json", vk)
@@ -83,6 +92,7 @@ func main() {
 		fmt.Println("Error saving VK to JSON:", err)
 		return
 	}
+
 	fmt.Println("VK saved to vk.json")
 	// **************************************************************************
 

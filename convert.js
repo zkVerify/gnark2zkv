@@ -17,9 +17,9 @@ const { utils, getCurveFromName, Scalar } = require("ffjavascript");
 const { unstringifyBigInts } = utils;
 const { toRprLE } = Scalar;
 
-async function convertProof(proofJSON) {
+async function convertProof(proofJSON, gnarkCurveName) {
   const proof = unstringifyBigInts(proofJSON);
-  const curve = await getCurveFromName("BN128");
+  const curve = await getCurveFromName(gnarkCurveName);
   const curveName = getCurveName(curve);
   let endianess;
   switch (curveName) {
@@ -32,14 +32,14 @@ async function convertProof(proofJSON) {
   }
   return {
     a: pointToHex(curve.G1, [proof.Ar.X, proof.Ar.Y], endianess),
-    b: pointToHex(curve.G2, [[proof.Bs.X.A0, proof.Bs.Y.A0], [proof.Bs.X.A1, proof.Bs.Y.A1]], endianess),
+    b: pointToHex(curve.G2, [[proof.Bs.X.A0, proof.Bs.X.A1], [proof.Bs.Y.A0, proof.Bs.Y.A1]], endianess),
     c: pointToHex(curve.G1, [proof.Krs.X, proof.Krs.Y], endianess),
   };
 }
 
-async function convertVk(vkJSON) {
+async function convertVk(vkJSON, gnarkCurveName) {
   const vk = unstringifyBigInts(vkJSON);
-  const curve = await getCurveFromName("BN128");
+  const curve = await getCurveFromName(gnarkCurveName);
   const curveName = getCurveName(curve);
   let endianess;
   switch (curveName) {
@@ -53,9 +53,9 @@ async function convertVk(vkJSON) {
   return {
     curve: curveName,
     alphaG1: pointToHex(curve.G1, [vk.G1.Alpha.X, vk.G1.Alpha.Y], endianess),
-    betaG2: pointToHex(curve.G2, [[vk.G2.Beta.X.A0, vk.G2.Beta.Y.A0], [vk.G2.Beta.X.A1, vk.G2.Beta.Y.A1]], endianess),
-    gammaG2: pointToHex(curve.G2, [[vk.G2.Gamma.X.A0, vk.G2.Gamma.Y.A0], [vk.G2.Gamma.X.A1, vk.G2.Gamma.Y.A1]], endianess),
-    deltaG2: pointToHex(curve.G2, [[vk.G2.Delta.X.A0, vk.G2.Delta.Y.A0], [vk.G2.Delta.X.A1, vk.G2.Delta.Y.A1]], endianess),
+    betaG2: pointToHex(curve.G2, [[vk.G2.Beta.X.A0, vk.G2.Beta.X.A1], [vk.G2.Beta.Y.A0, vk.G2.Beta.Y.A1]], endianess),
+    gammaG2: pointToHex(curve.G2, [[vk.G2.Gamma.X.A0, vk.G2.Gamma.X.A1], [vk.G2.Gamma.Y.A0, vk.G2.Gamma.Y.A1]], endianess),
+    deltaG2: pointToHex(curve.G2, [[vk.G2.Delta.X.A0, vk.G2.Delta.X.A1], [vk.G2.Delta.Y.A0, vk.G2.Delta.Y.A1]], endianess),
     gammaAbcG1: vk.G1.K.map((point) => pointToHex(curve.G1, [point.X, point.Y], endianess)),
   };
 }
