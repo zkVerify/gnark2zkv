@@ -32,7 +32,7 @@ async function convertProof(proofJSON) {
   }
   return {
     a: pointToHex(curve.G1, [proof.Ar.X, proof.Ar.Y], endianess),
-    b: pointToHex(curve.G2, [[proof.Bs.X.A0, proof.Bs.Y.A0], [proof.Bs.X.A1, proof.Bs.Y.A1]], endianess),
+    b: pointToHex(curve.G2, [[proof.Bs.X.A0, proof.Bs.X.A1], [proof.Bs.Y.A0, proof.Bs.Y.A1]], endianess),
     c: pointToHex(curve.G1, [proof.Krs.X, proof.Krs.Y], endianess),
   };
 }
