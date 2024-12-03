@@ -47,20 +47,20 @@ describe("Serialize", function () {
     });
   });
 
-  // describe("G1 * 42", function () {
-  //   describe("BLS12-381", async function () {
-  //     it("should give the same result as arkworks", async function () {
-  //       const curve = await getCurveFromName("bls12381");
-  //       const generator = curve.G1.gAffine;
-  //       const scalar = 42;
-  //       const point = curve.G1.timesScalar(generator, scalar);
-  //       assert.equal(
-  //         pointToHexLE(curve.G1, curve.G1.toObject(point), "BE"),
-  //         arkworksG1Times42.bls12381
-  //       );
-  //     });
-  //   });
-  // });
+  describe("G1 * 42", function () {
+    describe("BLS12-381", async function () {
+      it("should give the same result as arkworks", async function () {
+        const curve = await getCurveFromName("bls12381");
+        const generator = curve.G1.gAffine;
+        const scalar = 42;
+        const point = curve.G1.timesScalar(generator, scalar);
+        assert.equal(
+          pointToHexLE(curve.G1, curve.G1.toObject(point), "BE"),
+          arkworksG1Times42.bls12381
+        );
+      });
+    });
+  });
 
   describe("G2 * 42", function () {
     describe("BN128", async function () {
@@ -77,20 +77,20 @@ describe("Serialize", function () {
     });
   });
 
-  // describe("G2 * 42", function () {
-  //   describe("BLS12-381", async function () {
-  //     it("should give the same result as arkworks", async function () {
-  //       const curve = await getCurveFromName("bls12381");
-  //       const generator = curve.G2.gAffine;
-  //       const scalar = 42;
-  //       const point = curve.G2.timesScalar(generator, scalar);
-  //       assert.equal(
-  //         pointToHexLE(curve.G2, curve.G2.toObject(point), "BE"),
-  //         arkworksG2Times42.bls12381
-  //       );
-  //     });
-  //   });
-  // });
+  describe("G2 * 42", function () {
+    describe("BLS12-381", async function () {
+      it("should give the same result as arkworks", async function () {
+        const curve = await getCurveFromName("bls12381");
+        const generator = curve.G2.gAffine;
+        const scalar = 42;
+        const point = curve.G2.timesScalar(generator, scalar);
+        assert.equal(
+          pointToHexLE(curve.G2, curve.G2.toObject(point), "BE"),
+          arkworksG2Times42.bls12381
+        );
+      });
+    });
+  });
 });
 
 describe("Convert", function () {
