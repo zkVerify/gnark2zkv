@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
+	// "github.com/consensys/gnark-crypto/ecc/bn254/fr"
 	"github.com/consensys/gnark/backend/witness"
 )
 
@@ -13,17 +13,18 @@ import (
 // It intelligently handles publicWitness if the parameter is of type witness.Witness.
 func SaveToJSON(filePath string, v interface{}) error {
 	if witness, ok := v.(witness.Witness); ok {
-		rawVector, ok := witness.Vector().(fr.Vector)
-		if !ok {
-			return fmt.Errorf("failed to assert type of publicWitness.Vector() to fr.Vector")
-		}
+		// rawVector, ok := witness.Vector().(fr.Vector)
+		
+		// if !ok {
+		// 	return fmt.Errorf("failed to assert type of publicWitness.Vector() to fr.Vector")
+		// }
 
-		witnessPublicStrings := make([]string, len(rawVector))
-		for i, val := range rawVector {
-			witnessPublicStrings[i] = val.String()
-		}
+		// witnessPublicStrings := make([]string, len(rawVector))
+		// for i, val := range rawVector {
+		// 	witnessPublicStrings[i] = val.String()
+		// }
 
-		return SaveToJSON(filePath, witnessPublicStrings)
+		return SaveToJSON(filePath, witness.Vector())
 	}
 
 	jsonData, err := json.MarshalIndent(v, "", "  ")
