@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark-crypto/ecc/bn254/fr"
 	"github.com/consensys/gnark/backend/groth16"
 	"github.com/consensys/gnark/frontend"
 	"github.com/consensys/gnark/frontend/cs/r1cs"
@@ -63,15 +62,7 @@ func main() {
 	}
 
 	// ******************* Save publicWitness as JSON file **********************
-	rawVector, ok := publicWitness.Vector().(fr.Vector)
-	if !ok {
-		panic("Failed to assert type of publicWitness.Vector() to fr.Vector")
-	}
-	witnessPublicStrings := make([]string, len(rawVector))
-	for i, val := range rawVector {
-		witnessPublicStrings[i] = val.String()
-	}
-	err = gnark2zkv.SaveToJSON("WitnessPublic.json", witnessPublicStrings)
+	err = gnark2zkv.SaveToJSON("WitnessPublic.json", publicWitness)
 	if err != nil {
 		fmt.Printf("Error converting public witness to JSON: %v\n", err)
 		return
